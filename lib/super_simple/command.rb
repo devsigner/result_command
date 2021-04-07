@@ -42,6 +42,7 @@ module SuperSimple
 
     def self.prepended(base)
       base.extend ClassMethods
+      base.include Chainable
     end
 
     # call
@@ -85,26 +86,32 @@ module SuperSimple
       @errors ||= Errors.new(self)
     end
 
-    # Callback on_success
+    # on_success callback
     #
-    # @return result on success
-    # @return self unless success
+    # @yield result
+    #
+    # @return self
     def on_success
       call unless called?
       return self unless success?
 
-      yield(result)
+      yield(result) if block_given?
+
+      self
     end
 
-    # Callback on_failure
+    # on_failure callback
     #
-    # @return errors on failure
-    # @return self unless failure
+    # @yield errors
+    #
+    # @return self
     def on_failure
       call unless called?
       return self unless failure?
 
-      yield(errors)
+      yield(errors) if block_given?
+
+      self
     end
 
     private

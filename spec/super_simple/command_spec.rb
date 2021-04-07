@@ -101,4 +101,35 @@ RSpec.describe SuperSimple::Command do
       end
     end
   end
+
+  describe '#on_success' do
+    it 'yield result' do
+      expect { |b| command.on_success(&b) }.to(yield_successive_args(4))
+    end
+
+    it 'returns self' do
+      callback = ->(b) { b }
+      expect(command.on_success(&callback)).to(eq(command))
+    end
+  end
+
+  describe '#on_failure' do
+    before do
+      command.errors.add(:some_error, 'some message')
+    end
+
+    it 'yield with args' do
+      expect { |b| command.on_failure(&b) }.to(yield_with_args)
+    end
+
+    it 'yield errors' do
+      callback = ->(e) { expect(e).to(be_a(SuperSimple::Errors)) }
+      command.on_failure(&callback)
+    end
+
+    it 'returns self' do
+      callback = ->(b) { b }
+      expect(command.on_failure(&callback)).to(eq(command))
+    end
+  end
 end

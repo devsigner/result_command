@@ -73,7 +73,6 @@ Failure[:b].result # => :b
 Chainable add some chainable methods;
 
 - them (|)
-- bind
 
 ```ruby
 Params[:h] | MyCommande | MySecondCommande
@@ -83,4 +82,75 @@ Params[:h] | MyCommande | MySecondCommande
 ```ruby
 Params[:h] | MyCommande | MyFaildCommand | MySecondCommande
 => #<MyFaildCommand @content="h", @called=true, @result="h">
+```
+
+### Command
+
+wrap result after running call method
+
+```ruby
+cmd = MyCommand.call(args)
+
+cmd.success? # => true | false
+cmd.failure? # => true | false
+```
+
+##### Callback
+
+use block and callback
+
+- `on_success` yield Errors instance
+- `on_failure` yield `result`
+
+```ruby
+MyCommand.call(args) do |cmd|
+  cmd.on_success do |result|
+    # do something
+  end
+
+  cmd.on_failure do |errors|
+    # or do something else
+  end
+end
+```
+
+because chain of commands return Command instance, we can use callback :) 
+
+```ruby
+when_succeed = ->(result) { # do something with result }
+when_fail = ->(errors) { # do something with error }
+
+(Params[:h] | MyCommande | MyFaildCommand | MySecondCommande).
+  on_failure(&when_fail).
+  on_success(&when_succeed)
+```
+
+or wrap by an other command
+
+```ruby
+class WrapCommands
+  prepend SuperSimple::Command
+
+  def initialize(input)
+    @input = input
+  end
+
+  def call
+    Params[@input].
+      then(MyCommande).
+      then(MyFaildCommand).
+      then(MySecondCommande).
+      on_failure(&when_fail).
+      on_success(&when_succeed)
+  end
+
+  def when_succeed(result)
+    # do something with result 
+  end
+
+  def when_fail(errors)
+    # do something with error
+    errors.merge(errors)
+  end
+end
 ```
