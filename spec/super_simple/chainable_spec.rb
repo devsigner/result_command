@@ -1,9 +1,15 @@
 require 'spec_helper'
 
 RSpec.describe 'SuperSimple::Chainable' do
-  class StrCommand < SuperSimple::Result
+  class StrCommand
+    prepend SuperSimple::Command
+
+    def initialize(input)
+      @input = input
+    end
+
     def call
-      @content = @content.to_s
+      @content = @input.to_s
     end
   end
 
