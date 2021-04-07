@@ -66,6 +66,8 @@ module SuperSimple
     #
     # @return Boolean
     def success?
+      return super if defined?(super)
+
       called? && !failure?
     end
     alias successful? success?
@@ -74,6 +76,8 @@ module SuperSimple
     #
     # @return Boolean
     def failure?
+      return super if defined?(super)
+
       called? && errors.any?
     end
 
