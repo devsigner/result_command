@@ -1,4 +1,4 @@
-module SuperSimple
+module Result
   module Constants
     # An empty array
     EMPTY_ARRAY = [].freeze

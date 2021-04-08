@@ -1,4 +1,4 @@
-# Functionnal world with SuperSimple::Command
+# Functionnal world with Result::Command
 
 ## What is SupperSimple::Command?
 ## Command partern ? Like SimpleCommand 
@@ -19,11 +19,11 @@ o.result # => :a
 
 ## But It's container, like Monad (Result)?!
 
-Using SuperSimple::Command as an **atomiq object**. 
-We can easily implement **Monad Result** with **SuperSimple::Command** and used it like a container:
+Using Result::Command as an **atomiq object**. 
+We can easily implement **Monad Result** with **Result::Command** and used it like a container:
 
 ```ruby
-module SuperSimple
+module Result
   class Result
     def self.inherited(subclass)
       subclass.prepend Command
@@ -129,7 +129,7 @@ or wrap by an other command
 
 ```ruby
 class WrapCommands
-  prepend SuperSimple::Command
+  prepend Result::Command
 
   def initialize(input)
     @input = input

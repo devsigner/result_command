@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CustomErrors < SuperSimple::Errors
+class CustomErrors < Result::Errors
   module Instances
     def errors
       @errors ||= CustomErrors.new(self)

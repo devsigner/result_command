@@ -1,3 +1,3 @@
-module SuperSimple
+module Result
   VERSION = '0.0.1'
 end

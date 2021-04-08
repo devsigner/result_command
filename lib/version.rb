@@ -1,3 +1,3 @@
-module SuperSimpleCommand
+module ResultCommand
   VERSION = '0.0.1'
 end

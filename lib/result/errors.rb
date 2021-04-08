@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SuperSimple
+module Result
   class Errors
     def initialize(source)
       @source = source

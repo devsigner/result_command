@@ -7,7 +7,7 @@ end
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 
-require 'super_simple_command'
+require 'simple_result_command'
 
 Dir[File.join(File.dirname(__FILE__), 'factories', '**/*.rb')].each do |factory|
   require factory

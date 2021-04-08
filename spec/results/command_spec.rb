@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SuperSimple::Command do
+RSpec.describe Result::Command do
   let(:command) { SimpleCommand.new(2) }
 
   describe '.call' do
@@ -30,7 +30,7 @@ RSpec.describe SuperSimple::Command do
     it 'raises an exception if the method is not defined in the command' do
       expect do
         missed_call_command.call
-      end.to raise_error(SuperSimple::Command::NotImplementedError)
+      end.to raise_error(Result::Command::NotImplementedError)
     end
   end
 
@@ -81,8 +81,8 @@ RSpec.describe SuperSimple::Command do
   end
 
   describe '#errors' do
-    it 'returns an SuperSimple::Errors' do
-      expect(command.errors).to be_a(SuperSimple::Errors)
+    it 'returns an Result::Errors' do
+      expect(command.errors).to be_a(Result::Errors)
     end
 
     context 'with no errors' do
@@ -123,7 +123,7 @@ RSpec.describe SuperSimple::Command do
     end
 
     it 'yield errors' do
-      callback = ->(e) { expect(e).to(be_a(SuperSimple::Errors)) }
+      callback = ->(e) { expect(e).to(be_a(Result::Errors)) }
       command.on_failure(&callback)
     end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SuperSimple
+module Result
   class Failure < Result
     def failure?
       true

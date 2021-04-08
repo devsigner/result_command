@@ -1,4 +1,4 @@
-module SuperSimple
+module Result
   module Chainable
     def then(other)
       call unless called?

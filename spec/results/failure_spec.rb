@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SuperSimple::Failure do
+RSpec.describe Result::Failure do
   subject { described_class[22] }
 
   describe '#success?' do
@@ -27,7 +27,7 @@ RSpec.describe SuperSimple::Failure do
     end
 
     it' returns Errors' do
-      expect(subject.errors).to(be_a(SuperSimple::Errors))
+      expect(subject.errors).to(be_a(Result::Errors))
     end
 
     context 'with CustomErrors' do

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-RSpec.describe 'SuperSimple::Chainable' do
+RSpec.describe 'Result::Chainable' do
   class StrCommand
-    prepend SuperSimple::Command
+    prepend Result::Command
 
     def initialize(input)
       @input = input
@@ -13,7 +13,7 @@ RSpec.describe 'SuperSimple::Chainable' do
     end
   end
 
-  class UpperCommand < SuperSimple::Result
+  class UpperCommand < Result::Result
     def call
       @content = @content.upcase
     end
@@ -39,7 +39,7 @@ RSpec.describe 'SuperSimple::Chainable' do
     end
 
     it 'returns first faild command' do
-      expect(subject).to(be_a(SuperSimple::Failure))
+      expect(subject).to(be_a(Result::Failure))
     end
 
     it 'results hello string' do
@@ -54,7 +54,7 @@ RSpec.describe 'SuperSimple::Chainable' do
   describe '#then' do
     context 'Success suit' do
       subject do
-        SuperSimple::Params[:hello]
+        Result::Params[:hello]
           .then(StrCommand)
           .then(UpperCommand)
       end
@@ -64,12 +64,12 @@ RSpec.describe 'SuperSimple::Chainable' do
 
     context ' suit one failure in the middle' do
       subject do
-        SuperSimple::Params[:hello]
+        Result::Params[:hello]
           .then(StrCommand)
-          .then(SuperSimple::Failure)
+          .then(Result::Failure)
           .then(UpperCommand)
-          .then(SuperSimple::Failure)
-          .then(SuperSimple::Success)
+          .then(Result::Failure)
+          .then(Result::Success)
       end
 
       it_should_behave_like 'Chain Result faild'
@@ -78,19 +78,19 @@ RSpec.describe 'SuperSimple::Chainable' do
 
   describe '#|' do
     context 'Success suit' do
-      subject { SuperSimple::Params[:hello] | SuperSimple::Success | StrCommand | UpperCommand }
+      subject { Result::Params[:hello] | Result::Success | StrCommand | UpperCommand }
 
       it_should_behave_like 'Chain Result successfully'
     end
 
     context ' suit one failure in the middle' do
       subject do
-        SuperSimple::Params[:hello]
+        Result::Params[:hello]
           .|(StrCommand)
-          .|(SuperSimple::Failure)
+          .|(Result::Failure)
           .|(UpperCommand)
-          .|(SuperSimple::Failure)
-          .|(SuperSimple::Success)
+          .|(Result::Failure)
+          .|(Result::Success)
       end
 
       it_should_behave_like 'Chain Result faild'

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SuperSimple::Success do
+RSpec.describe Result::Success do
   subject { described_class[42] }
 
   describe '#success?' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module SuperSimple
+module Result
   # Command
   #
   # wrap result after running call method

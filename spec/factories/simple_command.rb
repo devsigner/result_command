@@ -1,5 +1,5 @@
 class SimpleCommand
-  prepend SuperSimple::Command
+  prepend Result::Command
 
   def initialize(input)
     @input = input

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe SuperSimple::Result do
+RSpec.describe Result::Result do
   describe '.[]' do
     before do
       allow(AsResult).to(receive(:call)).and_call_original

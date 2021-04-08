@@ -1,2 +1,2 @@
-class AsResult < SuperSimple::Result
+class AsResult < Result::Result
 end
