@@ -62,6 +62,22 @@ RSpec.describe 'Result::Chainable' do
       it_should_behave_like 'Chain Result successfully'
     end
 
+    context 'Success suit with lambda' do
+      subject do
+        Result::Params[:hello]
+          .then(
+            lambda { |input|
+              # compute something hard then return Result
+              computed = input.to_s
+              Result::Success[computed]
+            }
+          )
+          .then(UpperCommand)
+      end
+
+      it_should_behave_like 'Chain Result successfully'
+    end
+
     context ' suit one failure in the middle' do
       subject do
         Result::Params[:hello]
