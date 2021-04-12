@@ -72,16 +72,41 @@ Failure[:b].result # => :b
 
 Chainable add some chainable methods;
 
-- them (|)
+- `then` (or alias `|`)
 
 ```ruby
-Params[:h] | MyCommande | MySecondCommande
+Result::Params[:h] | MyCommande | MySecondCommande
 => #<MaSecondCommande @params="h", @called=true, @result="hello">
 ```
 
 ```ruby
-Params[:h] | MyCommande | MyFaildCommand | MySecondCommande
+Result::Params[:h] | MyCommande | MyFaildCommand | MySecondCommande
 => #<MyFaildCommand @content="h", @called=true, @result="h">
+```
+
+with lambda
+
+```ruby
+Result::Params[:hello].
+  then(->(input) { Result::Success[input.to_s] }).
+  then(->(input) { Result::Success[input + ' world'] })
+=> #<Result::Success @content="hello world", @called=true, @result="hello world">
+```
+
+```ruby
+  Result::Params[{ user: { first_name: 'John', last_name: 'Dow' } }]
+    .then(
+      lambda { |input|
+        response = MyClientApi.post('/users', payload: input)
+
+        if response.status == :ok
+          Result::Success[resonse.body]
+        else
+          Result::Failure[resonse.body]
+        end
+      }
+    )
+    .then(CreateUserLocaly)
 ```
 
 ### Command
@@ -100,7 +125,7 @@ cmd.failure? # => true | false
 use block and callback
 
 - `on_success` yield Errors instance
-- `on_failure` yield `result`
+- `on_falure` yield `result`
 
 ```ruby
 MyCommand.call(args) do |cmd|
@@ -120,7 +145,7 @@ because chain of commands return Command instance, we can use callback :)
 when_succeed = ->(result) { # do something with result }
 when_fail = ->(errors) { # do something with error }
 
-(Params[:h] | MyCommande | MyFaildCommand | MySecondCommande).
+(Result::Params[:h] | MyCommande | MyFaildCommand | MySecondCommande).
   on_failure(&when_fail).
   on_success(&when_succeed)
 ```

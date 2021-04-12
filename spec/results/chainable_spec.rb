@@ -67,7 +67,7 @@ RSpec.describe 'Result::Chainable' do
         Result::Params[:hello]
           .then(
             lambda { |input|
-              # compute something hard then return Result
+              # Do something hard then return Result
               computed = input.to_s
               Result::Success[computed]
             }
