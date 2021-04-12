@@ -30,7 +30,30 @@ RSpec.describe Result::Failure do
       expect(subject.errors).to(be_a(Result::Errors))
     end
 
-    context 'with CustomErrors' do
+    context 'with errors' do
+      subject(:subject_error) do
+        described_class[42].with_errors(
+          Result::Errors.build(
+            source: 'test',
+            details: { base: ['something went wrong'] }
+          )
+        )
+      end
+
+      it 'returns the content' do
+        expect(subject_error.result).to(eq(42))
+      end
+
+      it 'returns CustomErrors' do
+        expect(subject_error.errors).to(be_a(Result::Errors))
+      end
+
+      it ' returns errors details' do
+        expect(subject_error.errors.details).to(eq({ base: ['something went wrong'] }))
+      end
+    end
+
+    context 'with CustomErrors object' do
       subject(:subject_error) { described_class[22] }
 
       before do

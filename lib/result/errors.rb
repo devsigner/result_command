@@ -2,9 +2,18 @@
 
 module Result
   class Errors
+    def self.build(source:, details:)
+      new(source).with_errors(details)
+    end
+
     def initialize(source)
       @source = source
       @errors = {}
+    end
+
+    def with_errors(errors)
+      @errors = errors
+      self
     end
 
     def add(key, value, _opts = {})

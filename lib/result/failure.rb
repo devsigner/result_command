@@ -10,5 +10,10 @@ module Result
       errors.add(:result, :failure)
       super
     end
+
+    def with_errors(errors)
+      @errors = errors
+      self
+    end
   end
 end

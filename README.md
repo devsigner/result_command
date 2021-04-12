@@ -66,6 +66,18 @@ Failure[:b]
 Failure[:b].success? # => false
 Failure[:b].failure? # => true
 Failure[:b].result # => :b
+
+Result::Failure[42].with_errors(
+  Result::Errors.build(
+    source: 'test',
+    details: { base: ['something went wrong'] }
+  )
+)
+# => #<Result::Failure 
+        @content=42, 
+        @called=true, 
+        @errors=#<Result::Errors @source="test", @errors={ base: ['something went wrong'] }>, 
+        @result=42>
 ```
 
 ### Better, Faster, Stronger with **Chainable**!
@@ -100,9 +112,11 @@ Result::Params[:hello].
         response = MyClientApi.post('/users', payload: input)
 
         if response.status == :ok
-          Result::Success[resonse.body]
+          Result::Success[response.body]
         else
-          Result::Failure[resonse.body]
+          Result::Failure[input].with_errors(
+            Result::Errors.build(source: self, errors: response.body)
+          )
         end
       }
     )
