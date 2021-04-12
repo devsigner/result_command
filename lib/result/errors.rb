@@ -10,12 +10,14 @@ module Result
     def add(key, value, _opts = {})
       @errors[key] ||= Set.new
       @errors[key].add(value)
+      self
     end
 
     def merge(other)
       other.details.each do |key, values|
         values.each { |value| add(key, value) }
       end
+      self
     end
 
     def each
