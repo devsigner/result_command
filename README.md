@@ -1,6 +1,6 @@
 # Functionnal world with Result::Command
 
-## What is SupperSimple::Command?
+## What is Result::Command?
 ## Command partern ? Like SimpleCommand 
 ### not only
  
@@ -21,37 +21,6 @@ o.result # => :a
 
 Using Result::Command as an **atomiq object**. 
 We can easily implement **Monad Result** with **Result::Command** and used it like a container:
-
-```ruby
-module Result
-  class Result
-    def self.inherited(subclass)
-      subclass.prepend Command
-      subclass.include Chainable
-    end
-
-    def call
-      @content
-    end
-  end
-
-  class Success < Result
-  end
-
-  class Params < Result
-  end
-
-  class Failure < Result
-    def failure?
-      true
-    end
-
-    def call
-      errors.add(:result, :failure)
-      super
-    end
-  end
-end
 
 Success[:a]
 => #<Success @content=:a, @called=true, @result=:a>
@@ -139,7 +108,7 @@ cmd.failure? # => true | false
 use block and callback
 
 - `on_success` yield Errors instance
-- `on_falure` yield `result`
+- `on_failure` yield `result`
 
 ```ruby
 MyCommand.call(args) do |cmd|
