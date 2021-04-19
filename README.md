@@ -149,7 +149,7 @@ class WrapCommands
       then(MyCommande).
       then(MyFaildCommand).
       then(MySecondCommande).
-      on_failure(&when_fail).
+      on_failure(&when_failed).
       on_success(&when_succeed)
   end
 
@@ -157,7 +157,7 @@ class WrapCommands
     # do something with result 
   end
 
-  def when_fail(errors)
+  def when_failed(errors)
     # do something with error
     errors.merge(errors)
   end
