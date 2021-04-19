@@ -22,15 +22,16 @@ o.result # => :a
 Using Result::Command as an **atomiq object**. 
 We can easily implement **Monad Result** with **Result::Command** and used it like a container:
 
+```ruby
 Success[:a]
-=> #<Success @content=:a, @called=true, @result=:a>
+# => #<Success @content=:a, @called=true, @result=:a>
 
 Success[:a].success? # => true
 Success[:a].failure? # => false
 Success[:a].result # => :a
 
 Failure[:b]
-=> #<Failure @content=:b, @called=true, @result=nil>
+# => #<Failure @content=:b, @called=true, @result=nil>
 
 Failure[:b].success? # => false
 Failure[:b].failure? # => true
@@ -43,10 +44,10 @@ Result::Failure[42].with_errors(
   )
 )
 # => #<Result::Failure 
-        @content=42, 
-        @called=true, 
-        @errors=#<Result::Errors @source="test", @errors={ base: ['something went wrong'] }>, 
-        @result=42>
+#        @content=42, 
+#        @called=true, 
+#        @errors=#<Result::Errors @source="test", @errors={ base: ['something went wrong'] }>, 
+#        @result=42>
 ```
 
 ### Better, Faster, Stronger with **Chainable**!
