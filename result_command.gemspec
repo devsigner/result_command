@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'ResultCommand'
+  s.name        = 'result_command'
   s.version     = '0.0.1'
   s.summary     = 'A Super Simple Command Chainable like Monad/Result'
   s.description = 'A Super Simple Command Chainable like Monad/Result'
